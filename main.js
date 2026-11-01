@@ -42,5 +42,9 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
     if (process.platform !== 'win32') {
         app.quit();
+    } else {
+        app.quit(); // Или просто убрать условие и вызывать app.quit() для всех ОС
     }
-});
+}); 
+
+
