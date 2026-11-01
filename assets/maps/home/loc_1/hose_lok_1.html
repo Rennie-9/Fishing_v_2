@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактор глубин локаций (Depth Map Editor)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+        }
+        .canvas-container {
+            position: relative;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        canvas {
+            display: block;
+            border-radius: 0.5rem;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-emerald-600 rounded-lg shadow-md">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                </svg>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg text-white">Редактор глубин для Phaser 3</h1>
+                <p class="text-xs text-slate-400">Визуальная разметка берегов, камыша и глубин поверх фото</p>
+            </div>
+        </div>
+
+        <!-- Quick Info / Status -->
+        <div class="flex items-center gap-4 text-xs bg-slate-900/60 px-4 py-2 rounded-lg border border-slate-700/50">
+            <div>Размер сетки: <span id="grid-dim-display" class="font-bold text-emerald-400">20 x 15</span></div>
+            <div class="h-3 w-[1px] bg-slate-700"></div>
+            <div>Вода: <span id="water-cells-display" class="font-bold text-cyan-400">0%</span></div>
+            <div class="h-3 w-[1px] bg-slate-700"></div>
+            <div>Суша/Камыш (0 см): <span id="land-cells-display" class="font-bold text-amber-400">100%</span></div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        
+        <!-- Sidebar Controls -->
+        <aside class="w-full lg:w-80 bg-slate-800 border-r border-slate-700 p-5 flex flex-col gap-6 overflow-y-auto">
+            
+            <!-- 1. Source Image -->
+            <div class="space-y-3">
+                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">1. Исходное фото</h2>
+                <div class="flex flex-col gap-2">
+                    <label class="block">
+                        <span class="sr-only">Загрузить фото</span>
+                        <input type="file" id="image-loader" accept="image/*" class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500 cursor-pointer"/>
+                    </label>
+                    <div class="flex gap-2">
+                        <button id="btn-preset-sula" class="flex-1 py-1.5 px-3 bg-slate-700 hover:bg-slate-6 bg-slate-700 hover:bg-slate-600 text-xs rounded transition font-medium text-slate-200">
+                            Пресет: Река Сула
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-slate-700"/>
+
+            <!-- 2. Drawing Tools -->
+            <div class="space-y-3">
+                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">2. Инструменты</h2>
+                
+                <!-- Tool Selection -->
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="tool-paint" class="tool-btn flex items-center justify-center gap-2 py-2.5 px-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs rounded-lg shadow transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        Кисть (Вода)
+                    </button>
+                    <button id="tool-erase" class="tool-btn flex items-center justify-center gap-2 py-2.5 px-3 bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium text-xs rounded-lg transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        Суша (0 см)
+                    </button>
+                </div>
+
+                <!-- Depth Selector slider -->
+                <div class="space-y-2 pt-2">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-slate-300">Глубина кисти:</span>
+                        <span id="depth-val-display" class="font-bold text-cyan-400">250 см</span>
+                    </div>
+                    <input type="range" id="depth-slider" min="50" max="450" step="10" value="250" class="w-full accent-emerald-500 bg-slate-700 rounded-lg cursor-pointer h-2">
+                    
+                    <!-- Quick Preset Buttons -->
+                    <div class="flex gap-1 justify-between text-[11px] pt-1">
+                        <button class="quick-depth px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-slate-300" data-val="80">80см (Мель)</button>
+                        <button class="quick-depth px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-slate-300" data-val="180">180см</button>
+                        <button class="quick-depth px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-slate-300" data-val="280">280см</button>
+                        <button class="quick-depth px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-slate-300" data-val="380">380см (Яма)</button>
+                    </div>
+                </div>
+
+                <!-- Brush Size -->
+                <div class="space-y-2 pt-2">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-slate-300">Размер кисти:</span>
+                        <span id="brush-size-display" class="font-semibold text-slate-400">1x1 ячейка</span>
+                    </div>
+                    <input type="range" id="brush-size-slider" min="1" max="3" step="1" value="1" class="w-full accent-emerald-500 bg-slate-700 rounded-lg cursor-pointer h-2">
+                </div>
+            </div>
+
+            <hr class="border-slate-700"/>
+
+            <!-- 3. Visual Overlays -->
+            <div class="space-y-3">
+                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">3. Отображение</h2>
+                
+                <div class="space-y-2">
+                    <label class="flex items-center justify-between text-xs text-slate-300 cursor-pointer">
+                        <span>Показывать сетку</span>
+                        <input type="checkbox" id="chk-grid" checked class="w-4 h-4 accent-emerald-500 rounded">
+                    </label>
+                    <label class="flex items-center justify-between text-xs text-slate-300 cursor-pointer">
+                        <span>Показывать значения (см)</span>
+                        <input type="checkbox" id="chk-values" checked class="w-4 h-4 accent-emerald-500 rounded">
+                    </label>
+                    <div class="space-y-1 pt-1">
+                        <div class="flex justify-between text-xs text-slate-400">
+                            <span>Прозрачность маски:</span>
+                            <span id="opacity-val">50%</span>
+                        </div>
+                        <input type="range" id="opacity-slider" min="10" max="90" value="50" class="w-full accent-emerald-500 bg-slate-700 h-1.5 rounded">
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-slate-700"/>
+
+            <!-- 4. Export & Import -->
+            <div class="mt-auto space-y-2">
+                <button id="btn-export-json" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-lg shadow-lg transition flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Экспортировать JSON в Код
+                </button>
+                <button id="btn-clear-all" class="w-full py-1.5 px-3 bg-red-900/30 hover:bg-red-900/50 text-red-300 text-xs rounded border border-red-800/40 transition">
+                    Очистить всю карту
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- Canvas Editing Area -->
+        <main class="flex-1 bg-slate-950 p-6 flex flex-col items-center justify-center overflow-auto relative">
+            
+            <div class="canvas-container relative rounded-lg border border-slate-700 overflow-hidden">
+                <canvas id="editor-canvas" width="800" height="600"></canvas>
+            </div>
+
+            <!-- Tooltip / Legend -->
+            <div class="mt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 bg-slate-800/80 px-4 py-2 rounded-full border border-slate-700">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500/60 border border-red-400"></span>
+                    <span>Суша/Камыш (0 см) — Заброс закрыт</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-cyan-400/60 border border-cyan-300"></span>
+                    <span>Мелководье (50-150 см)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-blue-700/60 border border-blue-500"></span>
+                    <span>Глубокая вода / Яма (300+ см)</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="export-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 max-w-2xl w-full shadow-2xl flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white">Готовый массив глубин для Phaser 3</h3>
+                <button id="btn-close-modal" class="text-slate-400 hover:text-white">&times;</button>
+            </div>
+            <p class="text-xs text-slate-300">Скопируйте этот двумерный массив прямо в JS-файл вашей игры для текущей локации:</p>
+            <textarea id="export-textarea" readonly class="w-full h-64 font-mono text-xs bg-slate-900 border border-slate-700 text-emerald-400 p-3 rounded-lg focus:outline-none select-all"></textarea>
+            <div class="flex justify-end gap-3">
+                <button id="btn-copy-code" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition">Скопировать в буфер</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Logic -->
+    <script>
+        // Configuration
+        const COLS = 20;
+        const ROWS = 15;
+        let canvasWidth = 800;
+        let canvasHeight = 600;
+
+        // Grid Data Matrix (COLS x ROWS)
+        let depthGrid = Array(ROWS).fill(0).map(() => Array(COLS).fill(0));
+
+        // State
+        let currentTool = 'paint'; // 'paint' | 'erase'
+        let currentDepth = 250;
+        let brushSize = 1;
+        let isMouseDown = false;
+        let showGrid = true;
+        let showValues = true;
+        let maskOpacity = 0.5;
+
+        // Canvas & Context
+        const canvas = document.getElementById('editor-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Background Image
+        let bgImage = new Image();
+        bgImage.crossOrigin = 'anonymous';
+
+        // Set default background (generated placeholder with water/shore aesthetic)
+        function loadDefaultBackground() {
+            // Create a procedural background simulating a river bend with an island
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = 800;
+            tempCanvas.height = 600;
+            const tCtx = tempCanvas.getContext('2d');
+
+            // Grass/Land background
+            tCtx.fillStyle = '#2d4a22';
+            tCtx.fillRect(0, 0, 800, 600);
+
+            // Water curve (river)
+            tCtx.beginPath();
+            tCtx.moveTo(0, 150);
+            tCtx.bezierCurveTo(300, 100, 500, 450, 800, 350);
+            tCtx.lineTo(800, 600);
+            tCtx.lineTo(0, 600);
+            tCtx.closePath();
+            tCtx.fillStyle = '#1e3a5f';
+            tCtx.fill();
+
+            // River highlight
+            tCtx.beginPath();
+            tCtx.moveTo(0, 180);
+            tCtx.bezierCurveTo(280, 130, 480, 430, 800, 380);
+            tCtx.lineTo(800, 550);
+            tCtx.lineTo(0, 550);
+            tCtx.closePath();
+            tCtx.fillStyle = '#29527d';
+            tCtx.fill();
+
+            // Island in middle
+            tCtx.beginPath();
+            tCtx.ellipse(420, 360, 120, 60, Math.PI / 6, 0, Math.PI * 2);
+            tCtx.fillStyle = '#3a5e2b';
+            tCtx.fill();
+            tCtx.strokeStyle = '#1b3314';
+            tCtx.stroke();
+
+            // Text on canvas
+            tCtx.fillStyle = 'rgba(255,255,255,0.7)';
+            tCtx.font = 'bold 20px Inter, sans-serif';
+            tCtx.fillText('Локация: Река Сула (Пример)', 30, 40);
+
+            bgImage.src = tempCanvas.toDataURL();
+        }
+
+        bgImage.onload = () => {
+            render();
+        };
+
+        // Heatmap color logic based on depth (0 = red/land, 50-450 = cyan -> deep blue)
+        function getDepthColor(depth, opacity) {
+            if (depth === 0) {
+                return `rgba(239, 68, 68, ${opacity * 0.7})`; // Land / Red
+            }
+            // Hue from cyan (180) to deep blue (240)
+            const normalized = Math.min(Math.max((depth - 50) / 400, 0), 1);
+            const hue = 180 + (normalized * 60); 
+            const lightness = 60 - (normalized * 30);
+            return `hsla(${hue}, 80%, ${lightness}%, ${opacity})`;
+        }
+
+        // Main Render Loop
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Draw Background Image
+            if (bgImage.complete && bgImage.naturalWidth !== 0) {
+                ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.fillStyle = '#1e293b';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            const cellW = canvas.width / COLS;
+            const cellH = canvas.height / ROWS;
+
+            let waterCount = 0;
+            let landCount = 0;
+
+            // 2. Draw Depth Grid Overlays
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    const depth = depthGrid[r][c];
+                    const x = c * cellW;
+                    const y = r * cellH;
+
+                    if (depth > 0) waterCount++;
+                    else landCount++;
+
+                    // Color cell
+                    ctx.fillStyle = getDepthColor(depth, maskOpacity);
+                    ctx.fillRect(x, y, cellW, cellH);
+
+                    // Grid lines
+                    if (showGrid) {
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(x, y, cellW, cellH);
+                    }
+
+                    // Numeric Values
+                    if (showValues) {
+                        ctx.fillStyle = depth === 0 ? 'rgba(255,255,255,0.4)' : '#ffffff';
+                        ctx.font = '10px Inter, monospace';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(depth, x + cellW / 2, y + cellH / 2);
+                    }
+                }
+            }
+
+            // Update stats
+            const total = COLS * ROWS;
+            document.getElementById('water-cells-display').innerText = Math.round((waterCount / total) * 100) + '%';
+            document.getElementById('land-cells-display').innerText = Math.round((landCount / total) * 100) + '%';
+        }
+
+        // Apply Brush Paint
+        function applyTool(e) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const cellW = canvas.width / COLS;
+            const cellH = canvas.height / ROWS;
+
+            const targetC = Math.floor(mouseX / cellW);
+            const targetR = Math.floor(mouseY / cellH);
+
+            const valueToSet = currentTool === 'paint' ? parseInt(currentDepth, 10) : 0;
+            const halfBrush = Math.floor(brushSize / 2);
+
+            for (let r = targetR - halfBrush; r <= targetR + halfBrush; r++) {
+                for (let c = targetC - halfBrush; c <= targetC + halfBrush; c++) {
+                    if (r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+                        depthGrid[r][c] = valueToSet;
+                    }
+                }
+            }
+
+            render();
+        }
+
+        // Event Listeners
+        canvas.addEventListener('mousedown', (e) => {
+            isMouseDown = true;
+            applyTool(e);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isMouseDown) applyTool(e);
+        });
+
+        window.addEventListener('mouseup', () => {
+            isMouseDown = false;
+        });
+
+        // Image Upload
+        document.getElementById('image-loader').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    bgImage = new Image();
+                    bgImage.onload = render;
+                    bgImage.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Preset Button
+        document.getElementById('btn-preset-sula').addEventListener('click', () => {
+            loadDefaultBackground();
+        });
+
+        // Tool Switches
+        const btnPaint = document.getElementById('tool-paint');
+        const btnErase = document.getElementById('tool-erase');
+
+        btnPaint.addEventListener('click', () => {
+            currentTool = 'paint';
+            btnPaint.className = 'tool-btn flex items-center justify-center gap-2 py-2.5 px-3 bg-emerald-600 text-white font-medium text-xs rounded-lg shadow transition';
+            btnErase.className = 'tool-btn flex items-center justify-center gap-2 py-2.5 px-3 bg-slate-700 text-slate-200 font-medium text-xs rounded-lg transition';
+        });
+
+        btnErase.addEventListener('click', () => {
+            currentTool = 'erase';
+            btnErase.className = 'tool-btn flex items-center justify-center gap-2 py-2.5 px-3 bg-red-600 text-white font-medium text-xs rounded-lg shadow transition';
+            btnPaint.className = 'tool-btn flex items-center justify-center gap-2 py-2.5 px-3 bg-slate-700 text-slate-200 font-medium text-xs rounded-lg transition';
+        });
+
+        // Slider controls
+        const depthSlider = document.getElementById('depth-slider');
+        const depthValDisplay = document.getElementById('depth-val-display');
+
+        depthSlider.addEventListener('input', (e) => {
+            currentDepth = e.target.value;
+            depthValDisplay.innerText = currentDepth + ' см';
+        });
+
+        document.querySelectorAll('.quick-depth').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const val = e.target.getAttribute('data-val');
+                depthSlider.value = val;
+                currentDepth = val;
+                depthValDisplay.innerText = val + ' см';
+            });
+        });
+
+        document.getElementById('brush-size-slider').addEventListener('input', (e) => {
+            brushSize = parseInt(e.target.value, 10);
+            document.getElementById('brush-size-display').innerText = `${brushSize}x${brushSize} ячейка`;
+        });
+
+        document.getElementById('chk-grid').addEventListener('change', (e) => {
+            showGrid = e.target.checked;
+            render();
+        });
+
+        document.getElementById('chk-values').addEventListener('change', (e) => {
+            showValues = e.target.checked;
+            render();
+        });
+
+        document.getElementById('opacity-slider').addEventListener('input', (e) => {
+            maskOpacity = e.target.value / 100;
+            document.getElementById('opacity-val').innerText = e.target.value + '%';
+            render();
+        });
+
+        document.getElementById('btn-clear-all').addEventListener('click', () => {
+            depthGrid = Array(ROWS).fill(0).map(() => Array(COLS).fill(0));
+            render();
+        });
+
+        // JSON Export Modal
+        const modal = document.getElementById('export-modal');
+        const textarea = document.getElementById('export-textarea');
+
+        document.getElementById('btn-export-json').addEventListener('click', () => {
+            // Formatted JSON string array
+            let formattedStr = "const sulaDepthMap = [\n";
+            for (let r = 0; r < ROWS; r++) {
+                formattedStr += "  [" + depthGrid[r].map(v => String(v).padStart(3, ' ')).join(', ') + "]";
+                if (r < ROWS - 1) formattedStr += ",\n";
+            }
+            formattedStr += "\n];";
+
+            textarea.value = formattedStr;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        });
+
+        document.getElementById('btn-close-modal').addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+
+        document.getElementById('btn-copy-code').addEventListener('click', () => {
+            textarea.select();
+            document.execCommand('copy');
+            alert('Массив глубин успешно скопирован в буфер обмена!');
+        });
+
+        // Initialize
+        loadDefaultBackground();
+    </script>
+</body>
+</html>
