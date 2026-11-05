@@ -16,7 +16,7 @@ function createWindow() {
         height: 896,      // Высота рабочей зоны окна
         useContentSize: true,  // Учитывает указанные width/height именно для контента, без учета рамки окна
         resizable: false,      // Запрещаем менять размер окна мышкой, чтобы игра не плыла
-        autoHideMenuBar: true, // Скрываем верхнее меню (File, Edit и т.д.)
+        autoHideMenuBar: false, // true - Скрываем верхнее меню (File, Edit и т.д.)
         webPreferences: {
             nodeIntegration: true,     // Разрешаем использование Node.js внутри
             contextIsolation: false    // Отключаем изоляцию для простоты связи скриптов

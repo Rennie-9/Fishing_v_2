@@ -1,6 +1,6 @@
 ﻿/* game.js (код Phaser) */
 
-/* global Phaser */
+/* global Phaser, loadingBar */
 
 /**
  * Объект конфигурации игры Phaser.
@@ -21,15 +21,32 @@ const config = {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     scene: {
-        preload: preload,
-        create: create
+        preload,
+        create
     }
+    /* scene: [LoadingScene, MainMenuScene, GameScene]*/
 };
 
 const game = new Phaser.Game(config);
 
 function preload() {
-    // Здесь позже будем грузить картинки
+    loadingBar?.reset();
+
+    this.load.on('progress', (value) => {
+        loadingBar?.setProgress(value * 100);
+    });
+
+    this.load.once('complete', () => {
+        loadingBar?.complete();
+    });
+
+    this.load.on('loaderror', (file) => {
+        const fileName = file?.key || 'ресурс';
+        loadingBar?.showError(`Ошибка загрузки: ${fileName}`);
+    });
+
+    // Пример ресурсов:
+    // this.load.image('background', 'assets/loader/bg_WhiteRocks.png');
 }
 
 function create() {

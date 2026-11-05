@@ -5,11 +5,29 @@
     <title>Моя Инди-Игра</title>
 
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./downloadMenu/loadingBar.css">
 
 </head>
 <body>
     <!-- Контейнер, куда Phaser внедрит холст игры -->
     <div id="game-container">
+        <div id="loadingScreen" class="loading-screen" aria-live="polite">
+            <div class="loading-panel">
+                <div class="loading-title">Загрузка игры</div>
+
+                <div class="loading-track"
+                     role="progressbar"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     aria-valuenow="0">
+                    <div id="progressBar" class="loading-progress"></div>
+                </div>
+
+                <div id="progressText" class="loading-text">0%</div>
+                <div id="loadingError" class="loading-error" hidden></div>
+            </div>
+        </div>
+
         <div class="screen">
             <img src="assets/loader/bg_WhiteRocks.png" alt="">
         </div>
@@ -18,8 +36,9 @@
     <!-- Подключаем библиотеку Phaser (можно локально или через CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
 
+    <script src="downloadMenu/loadingBar.js"></script>
     <!-- Затем главный файл игры -->
-    <script src="game.js"></script>
+    <script type="module" src="game.js"></script>
 </body>
 </html>
 

@@ -2,9 +2,27 @@
  * Справочник (база данных) видов рыбы для игры "Русская Рыбалка 1.6"
  */
 const FishDatabase = {
+    amur: {
+        id: 'amur',
+        name: 'Белый Амур',
+        image: './assets/fish/amur.jpg',
+        minWeight: 500,     // 0.5 кг в граммах
+        maxWeight: 40000,   // 40 кг в граммах
+        evalWeight: 7000,   // Оценивается с 7 кг
+        pricePer1kg: 60,    // Цена за 1 кг
+        expPer500g: 250,    // Опыт за 500 г
+        minDepth: 150,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['greens'],
+        otherBaits: ['corn', 'peas', 'worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Ахтуба 1 лока', 'Рыбхоз 3 лока', 'Волга 10 лока']
+    },
+
     beloglazka: {
         id: 'beloglazka',
         name: 'Белоглазка',
+        image: './assets/fish/beloglazka.jpg', // Путь к иконке рыбы
         minWeight: 50,      // в граммах
         maxWeight: 1000,    // в граммах
         evalWeight: 400,    // Вес для оценки (гр)
@@ -21,6 +39,7 @@ const FishDatabase = {
     beluga: {
         id: 'beluga',
         name: 'Белуга',
+        image: './assets/fish/beluga.jpg', // Путь к иконке рыбы
         minWeight: 30000,   // 30 кг в граммах
         maxWeight: 700000,  // 700 кг в граммах
         evalWeight: 30000,  // Оценивается с 30 кг
@@ -35,25 +54,12 @@ const FishDatabase = {
         habitats: ['Ахтуба 2 лока', 'Волга 1 лока', 'Станица Вешенская 5 лока']
     },
 
-    bely_amur: {
-        id: 'bely_amur',
-        name: 'Белый Амур',
-        minWeight: 500,     // 0.5 кг в граммах
-        maxWeight: 40000,   // 40 кг в граммах
-        evalWeight: 7000,   // Оценивается с 7 кг
-        pricePer1kg: 60,    // Цена за 1 кг
-        expPer500g: 250,    // Опыт за 500 г
-        minDepth: 150,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['greens'],
-        otherBaits: ['corn', 'peas', 'worm'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Ахтуба 1 лока', 'Рыбхоз 3 лока', 'Волга 10 лока']
-    },
+    
 
     bersh: {
         id: 'bersh',
         name: 'Берш',
+        image: './assets/fish/bersh.jpg', // Путь к иконке рыбы
         minWeight: 250,     // грамм
         maxWeight: 2000,    // грамм (2 кг)
         evalWeight: 800,    // Оценивается с 800 гр
@@ -71,6 +77,7 @@ const FishDatabase = {
     bychok: {
         id: 'bychok',
         name: 'Бычок',
+        image: './assets/fish/bychok.jpg',
         minWeight: 10,      // грамм
         maxWeight: 200,     // грамм
         evalWeight: 0,      // Оценивается сразу
@@ -84,26 +91,272 @@ const FishDatabase = {
         habitats: ['Ахтуба 8, 3, 7 лока']
     },
 
-    karas: {
-        id: 'karas',
-        name: 'Карась',
-        minWeight: 100,
-        maxWeight: 4500,
-        evalWeight: 1800,
-        pricePer100g: 10,
-        expPer100g: 110,
-        minDepth: 30,
-        maxDepth: 800,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['semolina'],
-        otherBaits: ['potato', 'dough', 'maggot', 'worm', 'bread', 'moth'],
-        activity: { day: 'high', night: 'low' },
-        habitats: ['Северский Донец 10, 11 лока', 'Станица Вешенская 8 лока']
+    chebak: {
+        id: 'chebak',
+        name: 'Чебак',
+        image: './assets/fish/chebak.jpg',
+        minWeight: 50,
+        maxWeight: 650,
+        evalWeight: 300,
+        pricePer100g: 150,
+        expPer50g: 1040,
+        minDepth: 50,
+        methods: ['float_midwater', 'fly', 'bottom'],
+        mainBait: ['caddis'],
+        otherBaits: ['greens', 'worm', 'moth'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Ахтуба 8 лока', 'Волга 3, 6 лока']
     },
 
-    karas_zolotoy: {
-        id: 'karas_zolotoy',
+    chekhon: {
+        id: 'chekhon',
+        name: 'Чехонь',
+        image: './assets/fish/chekhon.jpg',
+        minWeight: 150,
+        maxWeight: 1500,
+        evalWeight: 700,
+        pricePer100g: 20,
+        expPer100g: 1330,
+        minDepth: 150,
+        methods: ['float_midwater', 'fly', 'bottom'],
+        mainBait: ['fly', 'grasshopper'],
+        otherBaits: ['beetle', 'maggot', 'worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Северский Донец 3 лока', 'Волга 1, 4 лока']
+    },
+
+    cherniy_amur: {
+        id: 'cherniy_amur',
+        name: 'Черный Амур',
+        image: './assets/fish/cherniy_amur.jpg',
+        minWeight: 500,
+        maxWeight: 26000,
+        evalWeight: 3000,
+        pricePer1kg: 100,
+        expPer500g: 830,
+        minDepth: 220,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['mollusk'],
+        otherBaits: ['worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Волга 9 лока', 'Ахтуба 9 лока', 'Рыбхоз 3 лока']
+    },
+
+    chir: {
+        id: 'chir',
+        name: 'Чир',
+        image: './assets/fish/chir.jpg',
+        minWeight: 400,
+        maxWeight: 11000,
+        evalWeight: 6000,
+        pricePer500g: 40,
+        expPer500g: 760,
+        minDepth: 250,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['crayfish_neck'],
+        otherBaits: ['caddis', 'mayfly', 'mollusk', 'crab_meat'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Аган 3 лока', 'Подкаменная Тунгуска 4 лока', 'Енисей 7 лока']
+    },
+
+    elec_sibirskiy: {
+        id: 'elec_sibirskiy',
+        name: 'Елец сибирский',
+        image: './assets/images/fish/elec sibirskiy.jpg',
+        minWeight: 50,
+        maxWeight: 500,
+        evalWeight: 200,
+        pricePer50g: 40,
+        expPer10g: 125,
+        minDepth: 150,
+        maxDepth: 500,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['caddis_fly'],
+        otherBaits: ['maggot', 'moth', 'fly', 'grasshopper', 'worm'],
+        isPredator: true,
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Верхняя Томь 6 лока', 'Енисей 2 лока', 'Подкаменная Тунгуска 10 лока']
+    },
+
+    elec: {
+        id: 'elec',
+        name: 'Елец',
+        image: './assets/images/fish/elec.jpg',
+        minWeight: 50,
+        maxWeight: 500,
+        evalWeight: 200,
+        pricePer50g: 40,
+        expPer10g: 125,
+        minDepth: 150,
+        maxDepth: 500,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['caddis_fly'],
+        otherBaits: ['maggot', 'moth', 'fly', 'grasshopper', 'worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Быстрая 4, 3, 5 лока']
+    },
+
+    ersh_nosar: {
+        id: 'ersh_nosar',
+        name: 'Ёрш носарь',
+        image: './assets/images/fish/ersh nosar.jpg',
+        minWeight: 50,
+        maxWeight: 500,
+        evalWeight: 250,
+        pricePer100g: 100,
+        expPer10g: 330,
+        minDepth: 100,
+        maxDepth: 500,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['worm', 'crab_meat'],
+        otherBaits: ['maggot', 'mollusk'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Ахтуба 4 лока', 'Приток Донца 1 лока', 'Волга 11 лока']
+    },
+
+    ersh: {
+        id: 'ersh',
+        name: 'Ёрш',
+        image: './assets/images/fish/ersh.jpg',
+        minWeight: 20,
+        maxWeight: 200,
+        evalWeight: 150,
+        pricePer50g: 4,
+        expPer10g: 165,
+        minDepth: 160,
+        maxDepth: 350,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['worm', 'moth'],
+        otherBaits: ['maggot', 'mollusk'],
+        isPredator: true,
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Ока 8 лока', 'Енисей 3 лока', 'Канал им. Москвы 1 лока']
+    },
+
+    golavl: {
+        id: 'golavl',
+        name: 'Голавль',
+        image: './assets/images/fish/golavl.jpg',
+        minWeight: 300,
+        maxWeight: 8000,
+        evalWeight: 2000,
+        pricePer100g: 15,
+        expPer200g: 415,
+        minDepth: 40,
+        methods: ['fly', 'bottom', 'float'],
+        mainBait: ['beetle'],
+        otherBaits: ['fly', 'grasshopper', 'worm', 'moth', 'frog', 'mollusk', 'spinner_m', 'spoon_m'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Чир 5 лока', 'Быстрая 8, 9 лока']
+    },
+
+    golec: {
+        id: 'golec',
+        name: 'Голец',
+        image: './assets/images/fish/golec.jpg',
+        minWeight: 500,
+        maxWeight: 15000,
+        evalWeight: 7000,
+        pricePer1kg: 50,
+        expPer500g: 550,
+        minDepth: 150,
+        methods: ['fly', 'spinning', 'bottom', 'float'],
+        mainBait: ['spoon_m', 'wobbler_8'],
+        otherBaits: ['spoon_b', 'wobbler_b', 'spinner_b', 'twister_b', 'caviar', 'grasshopper', 'fly', 'worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Подкаменная Тунгуска 2 локация']
+    },
+
+    goliy_osman: {
+        id: 'goliy_osman',
+        name: 'Голый Осман',
+        image: './assets/images/fish/goliy osman.jpg',
+        minWeight: 100,
+        maxWeight: 3000,
+        evalWeight: 150,
+        pricePer50g: 70,
+        expPer100g: 835,
+        minDepth: 150,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['caddis_fly'],
+        otherBaits: ['moth', 'mollusk', 'worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Ахтуба 3, 5 лока', 'Волга 3 лока']
+    },
+
+    gorbusha: {
+        id: 'gorbusha',
+        name: 'Горбуша',
+        image: './assets/images/fish/gorbusha.jpg',
+        minWeight: 300,
+        maxWeight: 3000,
+        evalWeight: 1500,
+        pricePer300g: 60,
+        expPer100g: 3335,
+        minDepth: 200,
+        methods: ['spinning'],
+        mainBait: ['spoon_m', 'wobbler_m', 'spinner_bettet', 'spinner_blue_fox'],
+        otherBaits: ['spoon_b', 'wobbler_b', 'spinner_b', 'twister_b'],
+        isPredator: true,
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Енисей 5 лока']
+    },
+
+    gustera: {
+        id: 'gustera',
+        name: 'Густера',
+        image: './assets/images/fish/gustera.jpg',
+        minWeight: 100,
+        maxWeight: 1300,
+        evalWeight: 650,
+        pricePer50g: 10,
+        expPer100g: 1040,
+        minDepth: 350,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['cheese_cube'],
+        otherBaits: ['worm', 'moth', 'caddis_fly', 'mayfly', 'bread'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Приток Донца 7 лока', 'Ока 9 лока', 'Пахра 8 лока']
+    }
+
+    harius_sibirskiy: {
+        id: 'harius_sibirskiy',
+        name: 'Хариус Сибирский',
+        image: './assets/fish/harius_sibirskiy.jpg',
+        minWeight: 200,
+        maxWeight: 1200,
+        evalWeight: 600,
+        pricePer100g: 40,
+        expPer50g: 1000,
+        minDepth: 80,
+        methods: ['spinning', 'fly', 'bottom', 'float'],
+        mainBait: ['spinner_med_vert_fast'],
+        otherBaits: ['live_bait', 'vobler_all', 'spoon_all_koleb', 'spinner_all_vert', 'twister_all', 'worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Подкаменная Тунгуска 1 лока', 'Нижняя Томь 9 лока', 'Верхняя Томь 6 лока']
+    },
+
+    harius: {
+        id: 'harius',
+        name: 'Хариус',
+        image: './assets/fish/harius.jpg',
+        minWeight: 200,
+        maxWeight: 2200,
+        evalWeight: 1500,
+        pricePer300g: 50,
+        expPer100g: 1000,
+        minDepth: 80,
+        methods: ['spinning', 'fly', 'bottom', 'float'],
+        mainBait: ['spinner_med_vert_fast'],
+        otherBaits: ['live_bait', 'vobler_all', 'spoon_all_koleb', 'spinner_all_vert', 'twister_all', 'worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Нижняя Томь 9 лока', 'Верхняя Томь 9, 7 лока']
+    },
+
+    karas_gold: {
+        id: 'karas_gold',
         name: 'Карась золотой',
+        image: './assets/fish/karas_gold.jpg',
         minWeight: 100,
         maxWeight: 4000,
         evalWeight: 1200,
@@ -118,26 +371,28 @@ const FishDatabase = {
         habitats: ['Северский Донец 11 лока', 'Рыбхоз 1 лока', 'Приток Донца 5 лока']
     },
 
-    karp: {
-        id: 'karp',
-        name: 'Карп',
-        minWeight: 400,
-        maxWeight: 35000,
-        evalWeight: 8500,
-        pricePer500g: 30,
-        expPer500g: 240,
-        minDepth: 150,
-        maxDepth: 900,
+    karas: {
+        id: 'karas',
+        name: 'Карась',
+        image: './assets/fish/karas.jpg',
+        minWeight: 100,
+        maxWeight: 4500,
+        evalWeight: 1800,
+        pricePer100g: 10,
+        expPer100g: 110,
+        minDepth: 30,
+        maxDepth: 800,
         methods: ['bottom', 'fly', 'float'],
-        mainBait: ['corn'],
-        otherBaits: ['potato', 'cheese_cube', 'semolina', 'dough', 'worm', 'bread'],
+        mainBait: ['semolina'],
+        otherBaits: ['potato', 'dough', 'maggot', 'worm', 'bread', 'moth'],
         activity: { day: 'high', night: 'low' },
-        habitats: ['Рыбхоз 1 лока', 'Приток Донца 4 лока', 'Подкаменная Тунгуска 8 лока']
+        habitats: ['Северский Донец 10, 11 лока', 'Станица Вешенская 8 лока']
     },
 
     karp_goly: {
         id: 'karp_goly',
         name: 'Карп голый',
+        image: './assets/fish/karp_goly.jpg',
         minWeight: 400,
         maxWeight: 30000,
         evalWeight: 8000,
@@ -155,6 +410,7 @@ const FishDatabase = {
     karp_zerkalny: {
         id: 'karp_zerkalny',
         name: 'Карп зеркальный',
+        image: './assets/fish/karp_zerkalny.jpg',
         minWeight: 400,
         maxWeight: 30000,
         evalWeight: 8000,
@@ -169,9 +425,28 @@ const FishDatabase = {
         habitats: ['Ахтуба 3 лока', 'Волга 3 лока']
     },
 
+    karp: {
+        id: 'karp',
+        name: 'Карп',
+        image: './assets/fish/karp.jpg',
+        minWeight: 400,
+        maxWeight: 35000,
+        evalWeight: 8500,
+        pricePer500g: 30,
+        expPer500g: 240,
+        minDepth: 150,
+        maxDepth: 900,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['corn'],
+        otherBaits: ['potato', 'cheese_cube', 'semolina', 'dough', 'worm', 'bread'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Рыбхоз 1 лока', 'Приток Донца 4 лока', 'Подкаменная Тунгуска 8 лока']
+    },
+
     kizhuch: {
         id: 'kizhuch',
         name: 'Кижуч',
+        image: './assets/fish/kizhuch.jpg',
         minWeight: 500,
         maxWeight: 14000,
         evalWeight: 3000,
@@ -186,26 +461,26 @@ const FishDatabase = {
         habitats: ['Дон 9 лока']
     },
 
-    kolyushka: {
-        id: 'kolyushka',
-        name: 'Колюшка',
-        minWeight: 20,
-        maxWeight: 200,
-        evalWeight: 150,
-        pricePer50g: 20,
-        expPer10g: 625,
-        minDepth: 160,
-        maxDepth: 350,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['caviar'],
-        otherBaits: ['moth', 'caddis', 'mayfly'],
-        activity: { day: 'high', night: 'low' },
-        habitats: ['Верхняя Томь 6 лока', 'Подкаменная Тунгуска 10 лока']
+    koleso: {
+        id: 'koleso',
+        name: 'Покрышка',
+        image: './assets/fish/koleso.jpg',
+        minWeight: 4500,
+        maxWeight: 45000,
+        evalWeight: 20000,
+        pricePer1kg: 5,
+        expPer500g: 25,
+        methods: ['bottom', 'spinning'],
+        mainBait: [],
+        otherBaits: [],
+        activity: { day: 'high', night: 'high' },
+        habitats: ['Пруд 11 лока', 'Ахтуба 7 лока', 'Ахтуба 3 лока']
     },
 
-    kolyushka_devyatiiglaya: {
-        id: 'kolyushka_devyatiiglaya',
+    kolyuchka_devyatiiglaya: {
+        id: 'kolyuchka_devyatiiglaya',
         name: 'Колюшка девятииглая',
+        image: './assets/fish/kolyuchka_devyatiiglaya.jpg',
         minWeight: 20,
         maxWeight: 200,
         evalWeight: 150,
@@ -220,9 +495,28 @@ const FishDatabase = {
         habitats: ['Аган 1 лока']
     },
 
+    kolyushka: {
+        id: 'kolyushka',
+        name: 'Колюшка',
+        image: './assets/fish/kolyushka.jpg',
+        minWeight: 20,
+        maxWeight: 200,
+        evalWeight: 150,
+        pricePer50g: 20,
+        expPer10g: 625,
+        minDepth: 160,
+        maxDepth: 350,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['caviar'],
+        otherBaits: ['moth', 'caddis', 'mayfly'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Верхняя Томь 6 лока', 'Подкаменная Тунгуска 10 лока']
+    },
+
     koryushka: {
         id: 'koryushka',
         name: 'Корюшка',
+        image: './assets/fish/koryushka.jpg',
         minWeight: 20,
         maxWeight: 200,
         evalWeight: 120,
@@ -239,6 +533,7 @@ const FishDatabase = {
     krasnoperka: {
         id: 'krasnoperka',
         name: 'Красноперка',
+        image: './assets/fish/krasnoperka.jpg',
         minWeight: 100,
         maxWeight: 2200,
         evalWeight: 500,
@@ -253,9 +548,27 @@ const FishDatabase = {
         habitats: ['Пруд 2 локация', 'Ока 4, 2 локация']
     },
 
+    kutum: {
+        id: 'kutum',
+        name: 'Кутум', // Сделать очень редкой
+        image: './assets/images/fish/kutum.jpg',
+        minWeight: 200,     // в граммах
+        maxWeight: 5000,    // до 5 кг
+        evalWeight: 1500,   // Оценивается с 1.5 кг
+        pricePer100g: 80,   // Цена за 100 г
+        expPer100g: 1200,   // Опыт за 100 г
+        minDepth: 250,      // Мин. глубина (см)
+        methods: ['bottom', 'float', 'fly'],
+        mainBait: ['maggot', 'caddis_fly'],
+        otherBaits: ['worm', 'bread', 'corn'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Волга', 'Ахтуба'] // Классические каспийские места обитания
+    },
+
     lenok: {
         id: 'lenok',
         name: 'Ленок',
+        image: './assets/images/fish/lenok.jpg',
         minWeight: 400,
         maxWeight: 8000,
         evalWeight: 600,
@@ -271,25 +584,10 @@ const FishDatabase = {
         habitats: ['Подкаменная Тунгуска 5 лока', 'Енисей 5 лока']
     },
 
-    leshch: {
-        id: 'leshch',
-        name: 'Лещ',
-        minWeight: 1000,
-        maxWeight: 9000,
-        evalWeight: 3500,
-        pricePer1kg: 50,
-        expPer200g: 715,
-        minDepth: 400,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['peas'],
-        otherBaits: ['semolina', 'worm', 'maggot', 'bread'],
-        activity: { day: 'high', night: 'medium' },
-        habitats: ['Северский Донец 8 лока', 'Ахтуба 2 лока', 'Ока 12 лока']
-    },
-
     leshch_vostochnosibirskiy: {
         id: 'leshch_vostochnosibirskiy',
         name: 'Лещ Восточносибирский',
+        image: './assets/images/fish/leshch_vostochnosibirskiy.jpg',
         minWeight: 200,
         maxWeight: 4000,
         evalWeight: 1800,
@@ -305,9 +603,27 @@ const FishDatabase = {
         habitats: ['Аган 4 лока', 'Нижняя Томь 3 лока', 'Подкаменная Тунгуска 8 лока']
     },
 
+    leshch: {
+        id: 'leshch',
+        name: 'Лещ',
+        image: './assets/images/fish/leshch.jpg',
+        minWeight: 1000,
+        maxWeight: 9000,
+        evalWeight: 3500,
+        pricePer1kg: 50,
+        expPer200g: 715,
+        minDepth: 400,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['peas'],
+        otherBaits: ['semolina', 'worm', 'maggot', 'bread'],
+        activity: { day: 'high', night: 'medium' },
+        habitats: ['Северский Донец 8 лока', 'Ахтуба 2 лока', 'Ока 12 лока']
+    },
+
     lin: {
         id: 'lin',
         name: 'Линь',
+        image: './assets/images/fish/lin.jpg',
         minWeight: 300,
         maxWeight: 8000,
         evalWeight: 3000,
@@ -324,6 +640,7 @@ const FishDatabase = {
     muksun: {
         id: 'muksun',
         name: 'Муксун',
+        image: './assets/images/fish/muksun.jpg',
         minWeight: 400,
         maxWeight: 13000,
         evalWeight: 6000,
@@ -342,6 +659,7 @@ const FishDatabase = {
     nalim: {
         id: 'nalim',
         name: 'Налим',
+        image: './assets/images/fish/nalim.jpg',
         minWeight: 500,
         maxWeight: 16000,
         evalWeight: 6500,
@@ -359,6 +677,7 @@ const FishDatabase = {
     nelma: {
         id: 'nelma',
         name: 'Нельма',
+        image: './assets/images/fish/nelma.jpg',
         minWeight: 500,
         maxWeight: 50000,
         evalWeight: 10000,
@@ -373,25 +692,10 @@ const FishDatabase = {
         habitats: ['Енисей 5 лока', 'Подкаменная Тунгуска 8 лока', 'Подкаменная Тунгуска 10 лока']
     },
 
-    ozernaya_forel: {
-        id: 'ozernaya_forel',
-        name: 'Озерная форель',
-        minWeight: 200,
-        maxWeight: 7000,
-        evalWeight: 3000,
-        pricePer100g: 15,
-        expPer200g: 475,
-        minDepth: 50,
-        methods: ['spinning', 'fly', 'float'],
-        mainBait: ['mouse_spinner_med', 'spinner_med_vert'],
-        otherBaits: ['mouse_spinner_small', 'live_bait', 'spoon_med_koleb', 'grasshopper', 'caviar', 'beetle'],
-        activity: { day: 'high', night: 'low' },
-        habitats: ['Волга 6 лока', 'Ахтуба 6 лока']
-    },
-
     okun: {
         id: 'okun',
         name: 'Окунь',
+        image: './assets/images/fish/okun.jpg',
         minWeight: 50,
         maxWeight: 3500,
         evalWeight: 1000,
@@ -405,9 +709,27 @@ const FishDatabase = {
         habitats: ['Подкаменная Тунгуска 6 лока', 'Уча 11 лока', 'Енисей 10 лока']
     },
 
+    omul_baykalskiy: {
+        id: 'omul_baykalskiy',
+        name: 'Омуль Байкальский',
+        image: './assets/images/fish/omul_baykalskiy.jpg',
+        minWeight: 100,
+        maxWeight: 2000,
+        evalWeight: 700,
+        pricePer100g: 80,
+        expPer100g: 280,
+        minDepth: 150,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['caddis'],
+        otherBaits: ['live_bait', 'small_spinner', 'small_koleb', 'vobler_small', 'twister_small', 'fish_pieces', 'caviar', 'bark_beetle_larva'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Подкаменная Тунгуска 7 лока', 'Нижняя Томь 6 лока']
+    },
+
     omul: {
         id: 'omul',
         name: 'Омуль',
+        image: './assets/images/fish/omul.jpg',
         minWeight: 100,
         maxWeight: 2000,
         evalWeight: 900,
@@ -422,41 +744,10 @@ const FishDatabase = {
         habitats: ['Подкаменная Тунгуска 6 лока', 'Енисей 6 лока']
     },
 
-    omul_baykalskiy: {
-        id: 'omul_baykalskiy',
-        name: 'Омуль Байкальский',
-        minWeight: 100,
-        maxWeight: 2000,
-        evalWeight: 700,
-        pricePer100g: 80,
-        expPer100g: 280,
-        minDepth: 150,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['caddis'],
-        otherBaits: ['live_bait', 'small_spinner', 'small_koleb', 'vobler_small', 'twister_small', 'fish_pieces', 'caviar', 'bark_beetle_larva'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Подкаменная Тунгуска 7 лока', 'Нижняя Томь 6 лока']
-    },
-
-    osetr: {
-        id: 'osetr',
-        name: 'Осётр',
-        minWeight: 5000,
-        maxWeight: 120000,
-        evalWeight: 10000,
-        pricePer1kg: 30,
-        expPer1kg: 385,
-        minDepth: 350,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['mollusk'],
-        otherBaits: [],
-        activity: { day: 'high', night: 'low' },
-        habitats: ['Волга 8 лока', 'Ахтуба 5, 8 лока']
-    },
-
     osetr_vostochnosibirskiy: {
         id: 'osetr_vostochnosibirskiy',
         name: 'Осётр Восточносибирский',
+        image: './assets/images/fish/osetr_vostochnosibirskiy.jpg',
         minWeight: 5000,
         maxWeight: 120000,
         evalWeight: 10000,
@@ -471,9 +762,63 @@ const FishDatabase = {
         habitats: ['Енисей 7, 8 лока', 'Подкаменная Тунгуска 8 лока']
     },
 
-    pelyad: {
-        id: 'pelyad',
+    osetr: {
+        id: 'osetr',
+        name: 'Осётр',
+        image: './assets/images/fish/osetr.jpg',
+        minWeight: 5000,
+        maxWeight: 120000,
+        evalWeight: 10000,
+        pricePer1kg: 30,
+        expPer1kg: 385,
+        minDepth: 350,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['mollusk'],
+        otherBaits: [],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Волга 8 лока', 'Ахтуба 5, 8 лока']
+    },
+
+    ozernaya_forel: {
+        id: 'ozernaya_forel',
+        name: 'Озерная форель',
+        image: './assets/images/fish/ozernaya_forel.jpg',
+        minWeight: 200,
+        maxWeight: 7000,
+        evalWeight: 3000,
+        pricePer100g: 15,
+        expPer200g: 475,
+        minDepth: 50,
+        methods: ['spinning', 'fly', 'float'],
+        mainBait: ['mouse_spinner_med', 'spinner_med_vert'],
+        otherBaits: ['mouse_spinner_small', 'live_bait', 'spoon_med_koleb', 'grasshopper', 'caviar', 'beetle'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Волга 6 лока', 'Ахтуба 6 лока']
+    },
+
+    palia: {
+        id: 'palia',
+        name: 'Палия', // сделать редкой
+        image: './assets/images/fish/palia.jpg',
+        minWeight: 200,
+        maxWeight: 8000,
+        evalWeight: 2500,
+        pricePer500g: 50,
+        expPer200g: 1100,
+        minDepth: 200,
+        maxDepth: 700,
+        methods: ['spinning', 'fly', 'bottom'],
+        mainBait: ['spoon_m', 'wobbler_m'],
+        otherBaits: ['live_bait', 'spoon_b', 'twister_m'],
+        isPredator: true,
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Подкаменная Тунгуска', 'Енисей']
+    }
+
+    pelad: {
+        id: 'pelad',
         name: 'Пелядь',
+        image: './assets/images/fish/pelad.jpg',
         minWeight: 200,
         maxWeight: 3000,
         evalWeight: 1300,
@@ -490,6 +835,7 @@ const FishDatabase = {
     peskar: {
         id: 'peskar',
         name: 'Пескарь',
+        image: './assets/images/fish/peskar.jpg',
         minWeight: 20,
         maxWeight: 100,
         evalWeight: 100,
@@ -504,9 +850,28 @@ const FishDatabase = {
         habitats: ['Кундрючья 5 лока', 'Быстрая 4 лока', 'Уча 5 лока']
     },
 
+    pizhyan: {
+        id: 'pizhyan',
+        name: 'Пыжьян',
+        image: './assets/images/fish/pizhyan.jpg',
+        minWeight: 200,
+        maxWeight: 5000,
+        evalWeight: 2000,
+        pricePer100g: 300,
+        expPer200g: 1000,
+        minDepth: 450,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['hironomida'],
+        otherBaits: ['mollusk', 'beetle', 'fly'],
+        isPredator: true,
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Подкаменная Тунгуска 3 лока']
+    },
+
     plotva: {
         id: 'plotva',
         name: 'Плотва',
+
         minWeight: 100,
         maxWeight: 2000,
         evalWeight: 400,
@@ -554,22 +919,7 @@ const FishDatabase = {
         activity: { day: 'high', night: 'none' },
         habitats: ['Быстрая 3, 5 лока', 'Волга 2 лока']
     },
-
-    pokryshka: {
-        id: 'pokryshka',
-        name: 'Покрышка',
-        minWeight: 4500,
-        maxWeight: 45000,
-        evalWeight: 20000,
-        pricePer1kg: 5,
-        expPer500g: 25,
-        methods: ['bottom', 'spinning'],
-        mainBait: [],
-        otherBaits: [],
-        activity: { day: 'high', night: 'high' },
-        habitats: ['Пруд 11 лока', 'Ахтуба 7 лока', 'Ахтуба 3 лока']
-    },
-
+    
     puzanok: {
         id: 'puzanok',
         name: 'Пузанок',
@@ -585,23 +935,6 @@ const FishDatabase = {
         otherBaits: ['moth'],
         activity: { day: 'high', night: 'none' },
         habitats: ['Приток Донца 4 лока']
-    },
-
-    pizhyan: {
-        id: 'pizhyan',
-        name: 'Пыжьян',
-        minWeight: 200,
-        maxWeight: 5000,
-        evalWeight: 2000,
-        pricePer100g: 300,
-        expPer200g: 1000,
-        minDepth: 450,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['hironomida'],
-        otherBaits: ['mollusk', 'beetle', 'fly'],
-        isPredator: true,
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Подкаменная Тунгуска 3 лока']
     },
 
     raduzhnaya_forel: {
@@ -686,22 +1019,6 @@ const FishDatabase = {
         habitats: ['Верхняя Томь 1, 4, 5 лока']
     },
 
-    rybec: {
-        id: 'rybec',
-        name: 'Рыбец',
-        minWeight: 100,
-        maxWeight: 1000,
-        evalWeight: 500,
-        pricePer100g: 50,
-        expPer50g: 1000,
-        minDepth: 250,
-        methods: ['fly', 'bottom', 'float'],
-        mainBait: ['mayfly'],
-        otherBaits: ['worm'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Приток Донца 6 лока', 'Северский Донец 8 лока', 'Ахтуба 4 лока']
-    },
-
     ryapushka: {
         id: 'ryapushka',
         name: 'Ряпушка',
@@ -717,6 +1034,22 @@ const FishDatabase = {
         otherBaits: [],
         activity: { day: 'high', night: 'none' },
         habitats: ['Верхняя Томь 3, 7 лока', 'Нижняя Томь 4 лока']
+    },
+
+    rybec: {
+        id: 'rybec',
+        name: 'Рыбец',
+        minWeight: 100,
+        maxWeight: 1000,
+        evalWeight: 500,
+        pricePer100g: 50,
+        expPer50g: 1000,
+        minDepth: 250,
+        methods: ['fly', 'bottom', 'float'],
+        mainBait: ['mayfly'],
+        otherBaits: ['worm'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Приток Донца 6 лока', 'Северский Донец 8 лока', 'Ахтуба 4 лока']
     },
 
     sazan: {
@@ -768,6 +1101,67 @@ const FishDatabase = {
         habitats: ['Волга 8, 3 лока', 'Ахтуба 7 лока']
     },
 
+    shemaya: {
+        id: 'shemaya',
+        name: 'Шемая',
+        minWeight: 30,
+        maxWeight: 300,
+        evalWeight: 120,
+        pricePer50g: 25,
+        expPer10g: 1665,
+        minDepth: 10,
+        methods: ['fly', 'bottom', 'float'],
+        mainBait: ['fly', 'grasshopper'],
+        otherBaits: ['moth', 'beetle'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Приток Донца 2, 3 лока', 'Дон 9 лока']
+    },
+
+    ship: {
+        id: 'ship',
+        name: 'Шип',
+        minWeight: 5000,
+        maxWeight: 135000,
+        evalWeight: 10000,
+        pricePer1kg: 30,
+        expPer1kg: 385,
+        minDepth: 350,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['mollusk'],
+        otherBaits: [],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Ахтуба 2 лока', 'Волга 11, 3 лока']
+    },
+
+    shuka: {
+        id: 'shuka',
+        name: 'Щука',
+        minWeight: 500,
+        maxWeight: 25000,
+        evalWeight: 6000,
+        pricePer500g: 15,
+        expPer500g: 250,
+        minDepth: 65,
+        methods: ['bottom', 'spinning', 'fly', 'float'],
+        mainBait: ['live_bait', 'spoon_big_koleb_fast_slow'],
+        otherBaits: ['spoon_med_small_koleb', 'vobler_all', 'spinner_all_vert', 'twister_all', 'frog', 'fish_pieces'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Подкаменная Тунгуска 2 лока', 'Енисей 6 лока', 'Ока 7 лока']
+    },
+
+    shuz: {
+        id: 'shus',
+        name: 'Туфля',
+        minWeight: 0,
+        maxWeight: 10000,
+        evalWeight: 0,
+        methods: [],
+        mainBait: [],
+        otherBaits: [],
+        activity: { day: 'medium', night: 'medium' },
+        habitats: []
+    },
+
     sinec: {
         id: 'sinec',
         name: 'Синец',
@@ -782,22 +1176,6 @@ const FishDatabase = {
         otherBaits: ['moth', 'bread', 'semolina', 'dough'],
         activity: { day: 'high', night: 'low' },
         habitats: ['Волга 1 лока', 'Северский Донец 8 лока', 'Станица Вешенская 2 лока']
-    },
-
-    som: {
-        id: 'som',
-        name: 'Сом обыкновенный',
-        minWeight: 2000,
-        maxWeight: 400000,
-        evalWeight: 5000,
-        pricePer1kg: 20,
-        expPer1kg: 125,
-        minDepth: 400,
-        methods: ['bottom', 'spinning', 'fly', 'float'],
-        mainBait: ['meat_pieces'],
-        otherBaits: ['frog', 'mollusk', 'vobler_med_big', 'spoon_big_koleb'],
-        activity: { day: 'low', night: 'high' },
-        habitats: ['Река Москва 6 лока', 'Ока 9 лока', 'Ахтуба 9 лока']
     },
 
     som_amurskiy: {
@@ -816,20 +1194,20 @@ const FishDatabase = {
         habitats: ['Подкаменная Тунгуска 3 лока']
     },
 
-    sterlyad: {
-        id: 'sterlyad',
-        name: 'Стерлядь',
-        minWeight: 500,
-        maxWeight: 16000,
-        evalWeight: 6000,
-        pricePer1kg: 30,
-        expPer500g: 1565,
-        minDepth: 300,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['bark_beetle_larva'],
-        otherBaits: ['maggot'],
-        activity: { day: 'high', night: 'low' },
-        habitats: ['Река Москва 6 лока', 'Волга 11 лока', 'Ахтуба 6 лока']
+    som: {
+        id: 'som',
+        name: 'Сом обыкновенный',
+        minWeight: 2000,
+        maxWeight: 400000,
+        evalWeight: 5000,
+        pricePer1kg: 20,
+        expPer1kg: 125,
+        minDepth: 400,
+        methods: ['bottom', 'spinning', 'fly', 'float'],
+        mainBait: ['meat_pieces'],
+        otherBaits: ['frog', 'mollusk', 'vobler_med_big', 'spoon_big_koleb'],
+        activity: { day: 'low', night: 'high' },
+        habitats: ['Река Москва 6 лока', 'Ока 9 лока', 'Ахтуба 9 лока']
     },
 
     sterlyad_sibirskaya: {
@@ -846,6 +1224,22 @@ const FishDatabase = {
         otherBaits: ['maggot', 'mollusk', 'caviar'],
         activity: { day: 'high', night: 'low' },
         habitats: ['Енисей 8, 10, 11 лока']
+    },
+
+    sterlyad: {
+        id: 'sterlyad',
+        name: 'Стерлядь',
+        minWeight: 500,
+        maxWeight: 16000,
+        evalWeight: 6000,
+        pricePer1kg: 30,
+        expPer500g: 1565,
+        minDepth: 300,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['bark_beetle_larva'],
+        otherBaits: ['maggot'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Река Москва 6 лока', 'Волга 11 лока', 'Ахтуба 6 лока']
     },
 
     sudak: {
@@ -930,19 +1324,6 @@ const FishDatabase = {
         habitats: ['Подкаменная Тунгуска 8, 2 лока', 'Енисей 2 лока']
     },
 
-    tuphlya: {
-        id: 'tuphlya',
-        name: 'Туфля',
-        minWeight: 0,
-        maxWeight: 10000,
-        evalWeight: 0,
-        methods: [],
-        mainBait: [],
-        otherBaits: [],
-        activity: { day: 'medium', night: 'medium' },
-        habitats: []
-    },
-
     ugor: {
         id: 'ugor',
         name: 'Угорь',
@@ -994,149 +1375,131 @@ const FishDatabase = {
         habitats: ['Волга 5 лока', 'Ахтуба 5 лока', 'Станица Вешенская 3 лока']
     },
 
-    kharius: {
-        id: 'kharius',
-        name: 'Хариус',
-        minWeight: 200,
-        maxWeight: 2200,
-        evalWeight: 1500,
-        pricePer300g: 50,
-        expPer100g: 1000,
-        minDepth: 80,
-        methods: ['spinning', 'fly', 'bottom', 'float'],
-        mainBait: ['spinner_med_vert_fast'],
-        otherBaits: ['live_bait', 'vobler_all', 'spoon_all_koleb', 'spinner_all_vert', 'twister_all', 'worm'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Нижняя Томь 9 лока', 'Верхняя Томь 9, 7 лока']
-    },
-
-    kharius_sibirskiy: {
-        id: 'kharius_sibirskiy',
-        name: 'Хариус Сибирский',
-        minWeight: 200,
+    valek: {
+        id: 'valek',
+        name: 'Валёк',
+        image: './assets/images/fish/valek.jpg',
+        minWeight: 80,
         maxWeight: 1200,
-        evalWeight: 600,
-        pricePer100g: 40,
-        expPer50g: 1000,
-        minDepth: 80,
-        methods: ['spinning', 'fly', 'bottom', 'float'],
-        mainBait: ['spinner_med_vert_fast'],
-        otherBaits: ['live_bait', 'vobler_all', 'spoon_all_koleb', 'spinner_all_vert', 'twister_all', 'worm'],
+        evalWeight: 450,
+        pricePer100g: 35,
+        expPer50g: 250,
+        minDepth: 100,
+        maxDepth: 300,
+        methods: ['fly', 'bottom', 'float'],
+        mainBait: ['caddis_fly'],
+        otherBaits: ['bark_beetle', 'grasshopper', 'mollusk', 'beetle'],
         activity: { day: 'high', night: 'none' },
-        habitats: ['Подкаменная Тунгуска 1 лока', 'Нижняя Томь 9 лока', 'Верхняя Томь 6 лока']
+        habitats: ['Верхняя Томь 10 лока', 'Подкаменная Тунгуска 4 лока']
     },
 
-    chebak: {
-        id: 'chebak',
-        name: 'Чебак',
-        minWeight: 50,
-        maxWeight: 650,
-        evalWeight: 300,
-        pricePer100g: 150,
-        expPer50g: 1040,
-        minDepth: 50,
-        methods: ['float_midwater', 'fly', 'bottom'],
-        mainBait: ['caddis'],
-        otherBaits: ['greens', 'worm', 'moth'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Ахтуба 8 лока', 'Волга 3, 6 лока']
-    },
-
-    cherniy_amur: {
-        id: 'cherniy_amur',
-        name: 'Черный Амур',
-        minWeight: 500,
-        maxWeight: 26000,
-        evalWeight: 3000,
-        pricePer1kg: 100,
-        expPer500g: 830,
-        minDepth: 220,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['mollusk'],
-        otherBaits: ['worm'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Волга 9 лока', 'Ахтуба 9 лока', 'Рыбхоз 3 лока']
-    },
-
-    chekhon: {
-        id: 'chekhon',
-        name: 'Чехонь',
-        minWeight: 150,
-        maxWeight: 1500,
-        evalWeight: 700,
-        pricePer100g: 20,
-        expPer100g: 1330,
-        minDepth: 150,
-        methods: ['float_midwater', 'fly', 'bottom'],
-        mainBait: ['fly', 'grasshopper'],
-        otherBaits: ['beetle', 'maggot', 'worm'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Северский Донец 3 лока', 'Волга 1, 4 лока']
-    },
-
-    chir: {
-        id: 'chir',
-        name: 'Чир',
-        minWeight: 400,
-        maxWeight: 11000,
-        evalWeight: 6000,
-        pricePer500g: 40,
-        expPer500g: 760,
-        minDepth: 250,
-        methods: ['bottom', 'fly', 'float'],
-        mainBait: ['crayfish_neck'],
-        otherBaits: ['caddis', 'mayfly', 'mollusk', 'crab_meat'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Аган 3 лока', 'Подкаменная Тунгуска 4 лока', 'Енисей 7 лока']
-    },
-
-    shemaya: {
-        id: 'shemaya',
-        name: 'Шемая',
-        minWeight: 30,
+    viun: {
+        id: 'viun',
+        name: 'Вьюн',
+        image: './assets/images/fish/viun.jpg',
+        minWeight: 20,
         maxWeight: 300,
         evalWeight: 120,
-        pricePer50g: 25,
-        expPer10g: 1665,
-        minDepth: 10,
-        methods: ['fly', 'bottom', 'float'],
-        mainBait: ['fly', 'grasshopper'],
-        otherBaits: ['moth', 'beetle'],
-        activity: { day: 'high', night: 'none' },
-        habitats: ['Приток Донца 2, 3 лока', 'Дон 9 лока']
-    },
-
-    ship: {
-        id: 'ship',
-        name: 'Шип',
-        minWeight: 5000,
-        maxWeight: 135000,
-        evalWeight: 10000,
-        pricePer1kg: 30,
-        expPer1kg: 385,
-        minDepth: 350,
+        pricePer50g: 35,
+        expPer10g: 165,
+        minDepth: 160,
+        maxDepth: 350,
         methods: ['bottom', 'fly', 'float'],
-        mainBait: ['mollusk'],
-        otherBaits: [],
-        activity: { day: 'high', night: 'low' },
-        habitats: ['Ахтуба 2 лока', 'Волга 11, 3 лока']
+        mainBait: ['bark_beetle'],
+        otherBaits: ['worm', 'moth', 'maggot', 'mollusk', 'mayfly'],
+        activity: { day: 'high', night: 'high' },
+        habitats: ['Приток Донца 10 лока', 'Ахтуба 7 лока']
     },
 
-    shchuka: {
-        id: 'shchuka',
-        name: 'Щука',
-        minWeight: 500,
-        maxWeight: 25000,
-        evalWeight: 6000,
-        pricePer500g: 15,
-        expPer500g: 250,
-        minDepth: 65,
-        methods: ['bottom', 'spinning', 'fly', 'float'],
-        mainBait: ['live_bait', 'spoon_big_koleb_fast_slow'],
-        otherBaits: ['spoon_med_small_koleb', 'vobler_all', 'spinner_all_vert', 'twister_all', 'frog', 'fish_pieces'],
+    vobla: {
+        id: 'vobla',
+        name: 'Вобла',
+        image: './assets/images/fish/vobla.jpg',
+        minWeight: 80,
+        maxWeight: 900,
+        evalWeight: 400,
+        pricePer100g: 10,
+        expPer50g: 355,
+        minDepth: 100,
+        maxDepth: 400,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['maggot'],
+        otherBaits: ['moth', 'worm', 'gercules', 'semolina', 'caddis_fly'],
         activity: { day: 'high', night: 'low' },
-        habitats: ['Подкаменная Тунгуска 2 лока', 'Енисей 6 лока', 'Ока 7 лока']
+        habitats: ['Дон 3 лока', 'Ахтуба 6 лока', 'Приток Донца 4 лока']
     },
+
+    vostrobrushka: {
+        id: 'vostrobrushka',
+        name: 'Остробровка', // сделать редкой
+        image: './assets/images/fish/vostrobrushka.jpg',
+        minWeight: 30,
+        maxWeight: 400,
+        evalWeight: 150,
+        pricePer50g: 20,
+        expPer50g: 200,
+        minDepth: 50,
+        maxDepth: 200,
+        methods: ['float', 'fly', 'bottom'],
+        mainBait: ['moth', 'maggot'],
+        otherBaits: ['worm', 'bread'],
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Волга', 'Дон']
+    },
+
+    vyrezub: {
+        id: 'vyrezub',
+        name: 'Вырезуб',
+        image: './assets/images/fish/vyrezub.jpg',
+        minWeight: 200,
+        maxWeight: 8000,
+        evalWeight: 3500,
+        pricePer500g: 80,
+        expPer200g: 1250,
+        minDepth: 400,
+        methods: ['bottom', 'fly', 'float'],
+        mainBait: ['crab_meat'],
+        otherBaits: ['crawfish_neck', 'worm', 'mollusk'],
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Волга 9, 5 лока', 'Приток Донца 10 лока']
+    },
+
+    zheltoshek: {
+        id: 'zheltoshek',
+        name: 'Желтощек',
+        image: './assets/images/fish/zheltoshek.jpg',
+        minWeight: 1000,
+        maxWeight: 40000,
+        evalWeight: 8000,
+        pricePer1kg: 40,
+        expPer500g: 450,
+        minDepth: 150,
+        methods: ['spinning', 'bottom', 'float'],
+        mainBait: ['live_bait', 'wobbler_b', 'spoon_b'],
+        otherBaits: ['spoon_m', 'wobbler_m', 'twister_b', 'frog'],
+        isPredator: true,
+        activity: { day: 'high', night: 'none' },
+        habitats: ['Амур', 'Уссури']
+    },
+
+    zhereh: {
+        id: 'zhereh',
+        name: 'Жерех',
+        image: './assets/images/fish/zhereh.jpg',
+        minWeight: 500,
+        maxWeight: 16000,
+        evalWeight: 6000,
+        pricePer500g: 20,
+        expPer500g: 520,
+        minDepth: 150,
+        maxDepth: 400,
+        methods: ['spinning', 'bottom', 'fly', 'float'],
+        mainBait: ['wobbler_m', 'spinner_s'],
+        otherBaits: ['wobbler_s', 'spoon_m', 'spoon_b', 'wobbler_b', 'spinner_b', 'spinner_m', 'live_bait'],
+        isPredator: true,
+        activity: { day: 'high', night: 'low' },
+        habitats: ['Станица Вешенская 4 лока', 'Северский Донец 4 лока', 'Ахтуба 1 лока']
+    }
 
     yaz: {
         id: 'yaz',
@@ -1164,7 +1527,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     catfish: {
@@ -1179,7 +1542,7 @@ const FishDatabase = {
         otherBaits: ['insects', 'fish_pieces', 'plants'],
         isPredator: true,
         activity: { day: 'low', night: 'high' },
-        habitats: ['Сырдарья', 'Ташкентская область']
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     crappie: {
@@ -1204,7 +1567,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     green_sunfish: {
@@ -1216,7 +1579,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     largemouth_bass: {
@@ -1228,7 +1591,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     minnow: {
@@ -1240,7 +1603,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     northern_pike: {
@@ -1252,7 +1615,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     pickerel: {
@@ -1264,7 +1627,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     pumpkinseed_sunfish: {
@@ -1276,7 +1639,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     rock_bass: {
@@ -1288,7 +1651,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     smallmouth_bass: {
@@ -1300,7 +1663,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     snapping_turtle: {
@@ -1312,7 +1675,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     walleye: {
@@ -1336,7 +1699,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     },
 
     whitefish: {
@@ -1348,7 +1711,7 @@ const FishDatabase = {
         mainBait: [],
         otherBaits: [],
         activity: { day: 'medium', night: 'medium' },
-        habitats: []
+        habitats: ['Северная Америка (США, Канада)']
     }
 };
 
